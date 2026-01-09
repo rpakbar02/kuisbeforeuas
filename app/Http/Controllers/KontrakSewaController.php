@@ -5,7 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\KontrakSewa;
 use App\Models\Penyewa;
 use App\Models\Kamar;
+use App\Models\Pembayaran;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+use function Pest\Laravel\delete;
+use function Ramsey\Uuid\v1;
 
 class KontrakSewaController extends Controller
 {
@@ -23,10 +28,9 @@ class KontrakSewaController extends Controller
      */
     public function create()
     {
-        //
-        $penyewas = Penyewa::all();
-        $kamars = Kamar::where('status', 'tersedia')->get();
-        return view('kontrak-sewa.create', compact('penyewas', 'kamars'));
+        $penyewa = Penyewa::all();
+        $kamar = Kamar::all();
+        return view('kontrak-sewa.create', compact('penyewa', 'kamar'));
     }
 
     /**
@@ -34,15 +38,22 @@ class KontrakSewaController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $contract = new KontrakSewa();
-        $contract->penyewa_id = $request->penyewa_id;
-        $contract->kamar_id = $request->kamar_id;
-        $contract->tanggal_mulai = $request->tanggal_mulai;
-        $contract->tanggal_selesai = $request->tanggal_selesai;
-        $contract->save();
+        DB::transaction (function () use ($request) {
+            KontrakSewa::create([
+                'tanggal_mulai' => $request->input('tanggal_mulai'),
+                'tanggal_selesai' => $request->input('tanggal_selesai'),
+                'harga_bulanan' => $request->input('harga_bulanan'),
+                'status' => $request->input('status'),
+                'penyewa_id' => $request->input('penyewa_id'),
+                'kamar_id' => $request->input('kamar_id'),
+            ]);
 
-        return redirect()->route('kontrak-sewa.index')->with('success', 'Kontrak Sewa berhasil ditambahkan.');
+            $kamar = Kamar::find($request->input('kamar_id'));
+            $kamar->status = 'terisi';
+            $kamar->save();
+
+        }); 
+        return redirect()->route('kontrak-sewa.index')->with('success', 'Kontrak sewa berhasil ditambahkan.');
     }
 
     /**
@@ -50,9 +61,12 @@ class KontrakSewaController extends Controller
      */
     public function show(string $id)
     {
-        //
-        $contract = KontrakSewa::with('penyewa')->with('kamar')->findOrFail($id);
-        return view('kontrak-sewa.show', compact('contract'));
+        $kontrakSewa = KontrakSewa::with('penyewa')->with('kamar')->findOrFail($id);
+        $pembayarans = Pembayaran::where('kontrak_sewa_id', $kontrakSewa->id)->get();
+
+        return view('kontrak-sewa.detail', [
+            'contract' => KontrakSewa::with('penyewa')->with('kamar')->findOrFail($id)
+        ], compact('kontrakSewa', 'pembayarans'));
     }
 
     /**
@@ -60,9 +74,11 @@ class KontrakSewaController extends Controller
      */
     public function edit(string $id)
     {
-        //
-        $contract = KontrakSewa::findOrFail($id);
-        return view('kontrak-sewa.edit', compact('contract'));
+        return view('kontrak-sewa.edit', [
+            'contract' => KontrakSewa::with('penyewa')->with('kamar')->findOrFail($id),
+            'penyewa' => Penyewa::all(),
+            'kamar' => Kamar::all(),
+        ]);
     }
 
     /**
@@ -70,10 +86,7 @@ class KontrakSewaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
-        $contract = KontrakSewa::findOrFail($id);
-        $contract->delete();
-        return redirect()->route('kontrak-sewa.index')->with('success', 'Kontrak Sewa berhasil dihapus');
+        
     }
 
     /**
@@ -81,9 +94,12 @@ class KontrakSewaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-        $contract = KontrakSewa::findOrFail($id);
-        $contract->delete();
-        return redirect()->route('kontrak-sewa.index')->with('success', 'Kontrak Sewa berhasil dihapus');
+        $kontrak = KontrakSewa::findOrFail($id);
+        $kamar = Kamar::find($kontrak->kamar_id);
+        $kamar->status = 'tersedia';
+        $kamar->save();
+        $kontrak->delete();
+
+        return redirect()->route('kontrak-sewa.index')->with('success', 'Kontrak sewa berhasil dihapus.');
     }
 }
