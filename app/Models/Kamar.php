@@ -8,13 +8,16 @@ class Kamar extends Model
 {
     protected $table = 'kamar';
     
-    // TODO: Definisikan kolom yang dapat diisi (mass assignment)
+    public $fillable = ['nomor_kamar', 'tipe', 'harga_bulanan', 'fasilitas', 'status'];
 
-    protected $fillable = ['nomor_kamar', 'tipe', 'harga_bulanan', 'fasilitas', 'status'];
-    
-    // TODO: Definisikan relasi ke tabel lain
-    public function pemesanan()
-    {
-        return $this->hasMany(Pemesanan::class, 'kamar_id');
+    public function kontrakSewa() {
+        return $this->hasMany(KontrakSewa::class);
+    }
+
+
+    public $fillable = ['nama_lengkap', 'nomor_telepon', 'nomor_ktp', 'alamat_asal', 'pekerjaan'];
+
+    public function kontrakSewa() {
+        return $this->hasMany(KontrakSewa::class);
     }
 }
