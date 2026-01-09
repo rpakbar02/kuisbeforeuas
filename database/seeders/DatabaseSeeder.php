@@ -31,5 +31,11 @@ class DatabaseSeeder extends Seeder
         
         // 4. Buat 15-20 pembayaran (beberapa lunas, beberapa tertunggak)
         // Pembayaran::create([...])
+        $this->call([
+            Kamarseeder::class,
+            PenyewaSeeder::class,
+            KontrakSeeder::class,
+            PembayaranSeeder::class,
+        ]);
     }
 }

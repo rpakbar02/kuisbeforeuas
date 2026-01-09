@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('kamar', function (Blueprint $table) {
             $table->id();
             $table->string('nomor_kamar', 10)->unique();
-            $table->enum('tipe', ['standard', 'deluxr', 'vip']);
+            $table->enum('tipe', ['standard', 'deluxe', 'vip']);
             $table->decimal('harga_bulanan', 10, 2);
             $table->text('fasilitas');
             $table->enum('status', ['tersedia', 'terisi']);            
