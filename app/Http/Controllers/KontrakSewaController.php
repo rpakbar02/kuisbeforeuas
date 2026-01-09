@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KontrakSewa;
+use App\Models\Penyewa;
+use App\Models\Kamar;
 use Illuminate\Http\Request;
 
 class KontrakSewaController extends Controller
@@ -11,7 +14,8 @@ class KontrakSewaController extends Controller
      */
     public function index()
     {
-        //
+        $contracts = KontrakSewa::with('penyewa')->with('kamar')->get();
+        return view('kontrak-sewa.index', compact('contracts'));
     }
 
     /**
