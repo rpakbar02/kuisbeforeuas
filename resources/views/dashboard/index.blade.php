@@ -51,9 +51,8 @@
     {{-- TODO BONUS: Chart/Grafik (opsional) --}}
     <div class="bg-white rounded-lg shadow p-6">
         <div class="text-lg font-bold text-gray-900 mb-4">Grafik Pendapatan Bulanan</div>
-        {{-- Placeholder untuk grafik --}}
+        {{-- Placeholder buat grafik --}}
         <div class="h-64 flex items-center justify-center text-gray-400">
-            [Grafik akan ditampilkan di sini]
         </div>
 </div>
 @endsection
