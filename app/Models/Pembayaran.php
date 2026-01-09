@@ -10,10 +10,14 @@ class Pembayaran extends Model
     
     // TODO: Definisikan kolom yang dapat diisi (mass assignment)
     // BONUS: Jangan lupa tambahkan 'bukti_transfer' jika mengerjakan fitur upload
-    protected $fillable = [];
+    protected $fillable = ['kontrak_sewa_id', 'bulan', 'tahun', 'jumlah_bayar', 'tanggal_bayar', 'status', 'keterangan'];
     
     // TODO: Cast kolom tanggal ke tipe date
-    protected $casts = [];
+    protected $casts = ['tanggal_bayar' => 'date'];
     
     // TODO: Definisikan relasi ke tabel KontrakSewa
+    public function kontrakSewa()
+    {
+        return $this->belongsTo(KontrakSewa::class, 'kontrak_sewa_id');
+    }
 }
