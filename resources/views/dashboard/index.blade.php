@@ -12,17 +12,48 @@
         <div class="bg-white rounded-lg shadow p-6">
             <div class="text-sm text-gray-500">Total Kamar</div>
             <div class="text-3xl font-bold text-gray-900">
-                {{-- TODO: Tampilkan total kamar --}}
                 0
             </div>
         </div>
 
         {{-- TODO: Card Kamar Terisi --}}
-        {{-- TODO: Card Kamar Tersedia --}}
-        {{-- TODO: Card Pendapatan Bulan Ini --}}
-        {{-- TODO: Card Tunggakan --}}
-    </div>
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="text-sm text-gray-500">Kamar Terisi</div>
+            <div class="text-3xl font-bold text-gray-900">
+                0
+            </div>
+        </div>
 
+        {{-- TODO: Card Kamar Tersedia --}}
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="text-sm text-gray-500">Kamar Tersedia</div>
+            <div class="text-3xl font-bold text-gray-900">
+                0
+            </div>
+        </div>
+
+        {{-- TODO: Card Pendapatan Bulan Ini --}}
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="text-sm text-gray-500">Pendapatan Bulan Ini</div>
+            <div class="text-3xl font-bold text-gray-900">
+                Rp 0
+            </div>
+        </div>
+
+        {{-- TODO: Card Tunggakan --}}
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="text-sm text-gray-500">Tunggakan</div>
+            <div class="text-3xl font-bold text-gray-900">
+                Rp 0
+            </div>
+        </div>
+    </div>
     {{-- TODO BONUS: Chart/Grafik (opsional) --}}
+    <div class="bg-white rounded-lg shadow p-6">
+        <div class="text-lg font-bold text-gray-900 mb-4">Grafik Pendapatan Bulanan</div>
+        {{-- Placeholder untuk grafik --}}
+        <div class="h-64 flex items-center justify-center text-gray-400">
+            [Grafik akan ditampilkan di sini]
+        </div>
 </div>
 @endsection

@@ -13,6 +13,22 @@
     </div>
 
     {{-- TODO: Filter berdasarkan status/tipe (BONUS) --}}
+    <div class="flex space-x-4">
+        <select class="border border-gray-300 rounded-md p-2">
+            <option value="">Semua Tipe</option>
+            <option value="standard">Standard</option>
+            <option value="deluxe">Deluxe</option>
+            <option value="vip">VIP</option>
+        </select>
+        <select class="border border-gray-300 rounded-md p-2">
+            <option value="">Semua Status</option>
+            <option value="aktif">Aktif</option>
+            <option value="selesai">Selesai</option>
+        </select>
+        <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+            Filter
+        </button>
+    </div>
 
     {{-- TODO: Tabel daftar kontrak --}}
     <div class="bg-white shadow-md rounded-lg overflow-hidden">
