@@ -12,6 +12,7 @@ class PembayaranController extends Controller
     public function index()
     {
         //
+        return view('pembayaran.index');;
     }
 
     /**
@@ -20,6 +21,7 @@ class PembayaranController extends Controller
     public function create()
     {
         //
+        return view('pembayaran.create');;
     }
 
     /**
@@ -28,6 +30,7 @@ class PembayaranController extends Controller
     public function store(Request $request)
     {
         //
+        return view('pembayaran.create');;
     }
 
     /**
@@ -36,6 +39,7 @@ class PembayaranController extends Controller
     public function show(string $id)
     {
         //
+        return view('pembayaran.show');;
     }
 
     /**
@@ -44,6 +48,7 @@ class PembayaranController extends Controller
     public function edit(string $id)
     {
         //
+        return view('pembayaran.edit');;
     }
 
     /**
@@ -52,6 +57,7 @@ class PembayaranController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        return view('pembayaran.edit');;
     }
 
     /**
@@ -60,5 +66,6 @@ class PembayaranController extends Controller
     public function destroy(string $id)
     {
         //
+        return redirect()->route('pembayaran.index')->with('success', 'Pembayaran berhasil dihapus');;
     }
 }
