@@ -16,14 +16,15 @@
 
     {{-- TODO: Tabel daftar kontrak --}}
     <div class="bg-white shadow-md rounded-lg overflow-hidden">
-        <table class="min-w-full divide-y divide-gray-200">
+        <table class="min-w-full text-center text-sm divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">No. Kamar</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tipe</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Harga</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
+                    <th class="px-6 py-3 text-center text-sm font-medium text-gray-500 uppercase">Penyewa</th>
+                    <th class="px-6 py-3 text-center text-sm font-medium text-gray-500 uppercase">Kamar</th>
+                    <th class="px-6 py-3 text-center text-sm font-medium text-gray-500 uppercase">Tanggal Mulai</th>
+                    <th class="px-6 py-3 text-center text-sm font-medium text-gray-500 uppercase">Tanggal Selesai</th>
+                    <th class="px-6 py-3 text-center text-sm font-medium text-gray-500 uppercase">Harga Bulanan</th>
+                    <th class="px-6 py-3 text-center text-sm font-medium text-gray-500 uppercase">Status</th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
@@ -31,12 +32,55 @@
                 @foreach($contracts as $kontrak)
                 <tr>
                     <td colspan="5" class="px-6 py-4 text-center text-gray-500">
-                        {$kontrak->penyewa->nama_lengkap}
+                        {{$kontrak->penyewa->nama_lengkap}}
+                    </td>
+                    <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                        {{$kontrak->kamar->nomor_kamar}}
+                    </td>
+                    <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                        {{$kontrak->tanggal_mulai}}
+                    </td>
+                    <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                        {{$kontrak->tanggal_selesai}}
+                    </td>
+                    <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                        {{$kontrak->harga_bulanan}}
+                    </td>
+                    <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                        {{$kontrak->status}}
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
+        <table class="min-w-full text-left text-sm font-light">
+                <thead class="border-b font-medium bg-gray-100">
+                    <tr>
+                        <th class="px-6 py-4">Penyewa</th>
+                        <th class="px-6 py-4">Kamar</th>
+                        <th class="px-6 py-4">Tanggal Mulai</th>
+                        <th class="px-6 py-4">Tanggal Selesai</th>
+                        <th class="px-6 py-4">Harga Bulanan</th>
+                        <th class="px-6 py-4">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($contracts as $kontrak)
+                        <tr class="border-b">
+                            <td class="px-6 py-4">{{ $kontrak->penyewa->nama_lengkap }}</td>
+                            <td class="px-6 py-4">{{ $kontrak->kamar->nomor_kamar }}</td>
+                            <td class="px-6 py-4">{{ $kontrak->tanggal_mulai }}</td>
+                            <td class="px-6 py-4">{{ $kontrak->tanggal_selesai }}</td>
+                            <td class="px-6 py-4">{{ $kontrak->harga_bulanan }}</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 rounded text-sm {{ $kontrak->status == 'terisi' ? 'bg-yellow-200 text-yellow-800' : 'bg-green-200 text-green-800' }}">
+                                    {{ $kontrak->status }}
+                                </span>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
     </div>
 </div>
 @endsection

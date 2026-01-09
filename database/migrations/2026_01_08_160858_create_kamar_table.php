@@ -17,7 +17,7 @@ return new class extends Migration
             $table->enum('tipe', ['standard', 'deluxe', 'vip']);
             $table->decimal('harga_bulanan', 10, 2);
             $table->text('fasilitas');
-            $table->enum('status', ['tersedia', 'terisi']);            
+            $table->enum('status', ['tersedia', 'terisi'])->default('tersedia');            
             $table->timestamps();
         });
     }
