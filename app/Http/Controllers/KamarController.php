@@ -15,6 +15,8 @@ class KamarController extends Controller
         // TODO: Ambil semua data kamar dari database
         // TODO: Tampilkan ke view 'kamar.index'
         // BONUS: Implementasi filter berdasarkan status/tipe
+        $kamar = \App\Models\Kamar::all();
+        return view('kamar.index', compact('kamar'));
     }
 
     /**
@@ -23,6 +25,7 @@ class KamarController extends Controller
     public function create()
     {
         // TODO: Tampilkan form tambah kamar di view 'kamar.create'
+        return view('kamar.create');
     }
 
     /**
@@ -33,6 +36,15 @@ class KamarController extends Controller
         // TODO: Validasi input (nomor_kamar unique, harga positif, dll)
         // TODO: Simpan data kamar baru ke database
         // TODO: Redirect ke index dengan pesan sukses
+        $kamar = new \App\Models\Kamar();
+        $kamar->nomor_kamar = $request->nomor_kamar;
+        $kamar->tipe = $request->tipe;
+        $kamar->harga_bulanan = $request->harga_bulanan;
+        $kamar->fasilitas = $request->fasilitas;
+        $kamar->status = 'tersedia';
+        $kamar->save();
+
+        return redirect()->route('kamar.index')->with('success', 'Kamar berhasil ditambahkan.');
     }
 
     /**
@@ -42,6 +54,8 @@ class KamarController extends Controller
     {
         // TODO: Ambil data kamar berdasarkan id
         // TODO: Tampilkan detail kamar di view 'kamar.show'
+        $kamar = \App\Models\Kamar::findOrFail($id);
+        return view('kamar.show', compact('kamar'));
     }
 
     /**
@@ -51,6 +65,8 @@ class KamarController extends Controller
     {
         // TODO: Ambil data kamar berdasarkan id
         // TODO: Tampilkan form edit di view 'kamar.edit'
+        $kamar = \App\Models\Kamar::findOrFail($id);
+        return view('kamar.edit', compact('kamar'));
     }
 
     /**
@@ -61,6 +77,13 @@ class KamarController extends Controller
         // TODO: Validasi input
         // TODO: Update data kamar
         // TODO: Redirect ke index dengan pesan sukses
+        $kamar = \App\Models\Kamar::findOrFail($id);
+        $kamar->nomor_kamar = $request->nomor_kamar;
+        $kamar->tipe = $request->tipe;
+        $kamar->harga_bulanan = $request->harga_bulanan;
+        $kamar->fasilitas = $request->fasilitas;
+        $kamar->status = $request->status;
+        $kamar->save();
     }
 
     /**
@@ -70,5 +93,8 @@ class KamarController extends Controller
     {
         // TODO: Hapus data kamar (cek dulu apakah sudah pernah disewa)
         // TODO: Redirect dengan pesan sukses/error
+        $kamar = \App\Models\Kamar::findOrFail($id);
+        $kamar->delete();
+        return redirect()->route('kamar.index')->with('success', 'Kamar berhasil dihapus');
     }
 }

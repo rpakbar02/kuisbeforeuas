@@ -24,6 +24,9 @@ class KontrakSewaController extends Controller
     public function create()
     {
         //
+        $penyewas = Penyewa::all();
+        $kamars = Kamar::where('status', 'tersedia')->get();
+        return view('kontrak-sewa.create', compact('penyewas', 'kamars'));
     }
 
     /**
@@ -32,6 +35,14 @@ class KontrakSewaController extends Controller
     public function store(Request $request)
     {
         //
+        $contract = new KontrakSewa();
+        $contract->penyewa_id = $request->penyewa_id;
+        $contract->kamar_id = $request->kamar_id;
+        $contract->tanggal_mulai = $request->tanggal_mulai;
+        $contract->tanggal_selesai = $request->tanggal_selesai;
+        $contract->save();
+
+        return redirect()->route('kontrak-sewa.index')->with('success', 'Kontrak Sewa berhasil ditambahkan.');
     }
 
     /**
@@ -40,6 +51,8 @@ class KontrakSewaController extends Controller
     public function show(string $id)
     {
         //
+        $contract = KontrakSewa::with('penyewa')->with('kamar')->findOrFail($id);
+        return view('kontrak-sewa.show', compact('contract'));
     }
 
     /**
@@ -48,6 +61,8 @@ class KontrakSewaController extends Controller
     public function edit(string $id)
     {
         //
+        $contract = KontrakSewa::findOrFail($id);
+        return view('kontrak-sewa.edit', compact('contract'));
     }
 
     /**
@@ -56,6 +71,9 @@ class KontrakSewaController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $contract = KontrakSewa::findOrFail($id);
+        $contract->delete();
+        return redirect()->route('kontrak-sewa.index')->with('success', 'Kontrak Sewa berhasil dihapus');
     }
 
     /**
@@ -64,5 +82,8 @@ class KontrakSewaController extends Controller
     public function destroy(string $id)
     {
         //
+        $contract = KontrakSewa::findOrFail($id);
+        $contract->delete();
+        return redirect()->route('kontrak-sewa.index')->with('success', 'Kontrak Sewa berhasil dihapus');
     }
 }

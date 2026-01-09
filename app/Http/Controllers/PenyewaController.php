@@ -12,6 +12,8 @@ class PenyewaController extends Controller
     public function index()
     {
         //
+        $penyewa = \App\Models\Penyewa::all();
+        return view('penyewa.index', compact('penyewa'));
     }
 
     /**
@@ -20,6 +22,7 @@ class PenyewaController extends Controller
     public function create()
     {
         //
+        return view('penyewa.create');;
     }
 
     /**
@@ -28,6 +31,13 @@ class PenyewaController extends Controller
     public function store(Request $request)
     {
         //
+        $validated = $request->validate([
+            'nama_lengkap' => 'required|string|max:100',
+            'nomor_telepon' => 'required|string|max:15',
+            'nomor_ktp' => 'required|string|max:20|unique:penyewa,nomor_ktp',
+            'alamat_asal' => 'required|string',
+            'pekerjaan' => 'required|string|max:50',
+        ]);
     }
 
     /**
@@ -36,6 +46,8 @@ class PenyewaController extends Controller
     public function show(string $id)
     {
         //
+        $penyewa = \App\Models\Penyewa::findOrFail($id);
+        return view('penyewa.show', compact('penyewa'));
     }
 
     /**
@@ -44,6 +56,8 @@ class PenyewaController extends Controller
     public function edit(string $id)
     {
         //
+        $penyewa = \App\Models\Penyewa::findOrFail($id);
+        return view('penyewa.edit', compact('penyewa'));
     }
 
     /**
@@ -52,6 +66,13 @@ class PenyewaController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $validated = $request->validate([
+            'nama_lengkap' => 'required|string|max:100',
+            'nomor_telepon' => 'required|string|max:15',
+            'nomor_ktp' => 'required|string|max:20|unique:penyewa,nomor_ktp,' . $id,
+            'alamat_asal' => 'required|string',
+            'pekerjaan' => 'required|string|max:50',
+        ]);
     }
 
     /**
@@ -60,5 +81,8 @@ class PenyewaController extends Controller
     public function destroy(string $id)
     {
         //
+        $penyewa = \App\Models\Penyewa::findOrFail($id);
+        $penyewa->delete();
+        return redirect()->route('penyewa.index')->with('success', 'Penyewa berhasil dihapus');
     }
 }
